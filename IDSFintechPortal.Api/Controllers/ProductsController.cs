@@ -45,5 +45,29 @@ namespace IDSFintechPortal.Api.Controllers
             var createdProduct = await _productService.GetProductByIdAsync(newId);
             return CreatedAtAction(nameof(GetProductById), new { id = newId }, createdProduct);
         }
+
+        //PUT: api/products/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDto dto)
+        {
+            var success = await _productService.UpdateProductAsync(id, dto);
+            if(!success)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+
+        //DELETE: api/products/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var success = await _productService.DeleteProductAsync(id);
+            if(!success)
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
 }

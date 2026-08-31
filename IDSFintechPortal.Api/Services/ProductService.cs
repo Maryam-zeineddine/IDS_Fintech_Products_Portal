@@ -27,5 +27,15 @@ namespace IDSFintechPortal.Api.Services
         {
             return await _productRepository.CreateAsync(dto);
         }
+
+        public async Task<bool> UpdateProductAsync(int id, UpdateProductDto dto)
+        {
+            return await _productRepository.UpdateAsync(id, dto);
+        }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            return await _productRepository.DeleteAsync(id);
+        }
     }
 }

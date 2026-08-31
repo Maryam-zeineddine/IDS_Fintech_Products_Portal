@@ -8,5 +8,7 @@ namespace IDSFintechPortal.Api.Interfaces
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product?> GetByIdAsync(int id);
         Task<int> CreateAsync(CreateProductDto dto);
+        Task<bool> UpdateAsync(int id, UpdateProductDto dto);
+        Task<bool> DeleteAsync(int id);
     }
 }
