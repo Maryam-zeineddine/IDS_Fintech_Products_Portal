@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using IDSFintechPortal.Api.Interfaces;
+using IDSFintechPortal.Api.DTOs;
 
 namespace IDSFintechPortal.Api.Controllers
 {
@@ -34,6 +35,15 @@ namespace IDSFintechPortal.Api.Controllers
             }
 
             return Ok(product);
+        }
+
+        //POST: api/products
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto dto)
+        {
+            var newId = await _productService.CreateProductAsync(dto);
+            var createdProduct = await _productService.GetProductByIdAsync(newId);
+            return CreatedAtAction(nameof(GetProductById), new { id = newId }, createdProduct);
         }
     }
 }

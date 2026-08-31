@@ -1,3 +1,4 @@
+using IDSFintechPortal.Api.DTOs;
 using IDSFintechPortal.Api.Models;
 
 namespace IDSFintechPortal.Api.Interfaces
@@ -6,5 +7,6 @@ namespace IDSFintechPortal.Api.Interfaces
     {
         Task<IEnumerable<Product>> GetAllProductAsync();
         Task<Product?> GetProductByIdAsync(int id);
+        Task<int> CreateProductAsync(CreateProductDto dto);
     }
 }

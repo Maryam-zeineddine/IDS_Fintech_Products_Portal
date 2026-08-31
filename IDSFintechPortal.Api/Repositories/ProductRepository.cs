@@ -1,6 +1,7 @@
 using Dapper;
 using IDSFintechPortal.Api.Models;
 using IDSFintechPortal.Api.Interfaces;
+using IDSFintechPortal.Api.DTOs;
 
 namespace IDSFintechPortal.Api.Repositories
 {
@@ -25,6 +26,19 @@ namespace IDSFintechPortal.Api.Repositories
             using var connection = _connectionFactory.CreateConnection();
             const string sql = "SELECT * FROM Products WHERE Id = @Id";
             return await connection.QuerySingleOrDefaultAsync<Product>(sql, new {Id = id});
+        }
+
+        public async Task<int> CreateAsync(CreateProductDto dto)
+        {
+            using var connection = _connectionFactory.CreateConnection();
+            const string sql = @"
+                INSERT INTO Products 
+                    (Name, Description, BusinessPurpose, ProductStatusId, CurrentVersion, SupportedMarkets, Criticality, Technologies, Notes)
+                VALUES 
+                    (@Name, @Description, @BusinessPurpose, @ProductStatusId, @CurrentVersion, @SupportedMarkets, @Criticality, @Technologies, @Notes);
+                SELECT CAST(SCOPE_IDENTITY() as int);";
+
+            return await connection.QuerySingleAsync<int>(sql, dto);
         }
     }
 }
