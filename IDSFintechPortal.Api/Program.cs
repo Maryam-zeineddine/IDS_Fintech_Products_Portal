@@ -26,6 +26,10 @@ builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
 builder.Services.AddScoped<IProductResponsibilityRepository, ProductResponsibilityRepository>();
 builder.Services.AddScoped<IProductResponsibilityService, ProductResponsibilityService>();
+builder.Services.AddScoped<IDeploymentRepository, DeploymentRepository>();
+builder.Services.AddScoped<IDeploymentService, DeploymentService>();
+builder.Services.AddScoped<IDeploymentModuleRepository, DeploymentModuleRepository>();
+builder.Services.AddScoped<IDeploymentModuleService, DeploymentModuleService>();
 
 var app = builder.Build();
 
