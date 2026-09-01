@@ -30,6 +30,8 @@ builder.Services.AddScoped<IDeploymentRepository, DeploymentRepository>();
 builder.Services.AddScoped<IDeploymentService, DeploymentService>();
 builder.Services.AddScoped<IDeploymentModuleRepository, DeploymentModuleRepository>();
 builder.Services.AddScoped<IDeploymentModuleService, DeploymentModuleService>();
+builder.Services.AddScoped<IEnvironmentRepository, EnvironmentRepository>();
+builder.Services.AddScoped<IEnvironmentService, EnvironmentService>();
 
 var app = builder.Build();
 
