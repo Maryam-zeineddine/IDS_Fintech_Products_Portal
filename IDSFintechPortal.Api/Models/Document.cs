@@ -8,6 +8,5 @@ namespace IDSFintechPortal.Api.Models
         public int ProductId { get; set; }
         public string? Description { get; set; }
         public string? FileReference { get; set; }
-        public DateOnly? LastUpdatedDate { get; set; }
-    }
+        public DateTime? LastUpdatedDate { get; set; }    }
 }
