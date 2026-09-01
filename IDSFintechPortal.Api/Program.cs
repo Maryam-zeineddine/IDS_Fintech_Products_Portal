@@ -24,6 +24,8 @@ builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
+builder.Services.AddScoped<IProductResponsibilityRepository, ProductResponsibilityRepository>();
+builder.Services.AddScoped<IProductResponsibilityService, ProductResponsibilityService>();
 
 var app = builder.Build();
 
