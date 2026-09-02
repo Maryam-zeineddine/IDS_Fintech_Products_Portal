@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using IDSFintechPortal.Api.Interfaces;
 using IDSFintechPortal.Api.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDSFintechPortal.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {

@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using IDSFintechPortal.Api.DTOs;
 using IDSFintechPortal.Api.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDSFintechPortal.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class DeploymentsController : ControllerBase
     {

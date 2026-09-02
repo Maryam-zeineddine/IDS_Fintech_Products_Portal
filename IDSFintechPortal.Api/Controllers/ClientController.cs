@@ -3,10 +3,12 @@ using IDSFintechPortal.Api.DTOs;
 using IDSFintechPortal.Api.Interfaces;
 using System.Xml.Schema;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDSFintechPortal.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ClientsController : ControllerBase
     {
