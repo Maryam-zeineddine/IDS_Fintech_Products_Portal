@@ -3,6 +3,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
+import ProductsList from './pages/ProductsList';
+import ProductForm from './pages/ProductForm';
 
 // Wrapper that blocks access to a route unless the user is logged in
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -23,6 +25,31 @@ function AppRoutes() {
         }
       />
       <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route
+        path="/products"
+        element={
+          <ProtectedRoute>
+            <ProductsList />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/products/new"
+        element={
+          <ProtectedRoute>
+            <ProductForm />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/products/:id/edit"
+        element={
+          <ProtectedRoute>
+            <ProductForm />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
