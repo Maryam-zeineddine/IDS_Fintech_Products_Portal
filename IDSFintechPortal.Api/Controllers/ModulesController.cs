@@ -51,9 +51,16 @@ namespace IDSFintechPortal.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(int id)
         {
-            var success = await _moduleService.DeleteModuleAsync(id);
-            if (!success) return NotFound();
-            return NoContent();
+            try
+            {
+                var success = await _moduleService.DeleteModuleAsync(id);
+                if (!success) return NotFound();
+                return NoContent();
+            }
+            catch (Microsoft.Data.SqlClient.SqlException ex) when (ex.Number == 547)
+            {
+                return Conflict(new { message = "This module is linked to one or more deployments and cannot be deleted. Remove it from those deployments first." });
+            }
         }
     }
 }

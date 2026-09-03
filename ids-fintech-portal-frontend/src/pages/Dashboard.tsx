@@ -6,6 +6,7 @@ import { getAllProducts } from '../services/productService';
 import { getAllDeployments } from '../services/deploymentService';
 import { getAllTeamMembers } from '../services/teamMemberService';
 import type { Product } from '../types/Product';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -13,7 +14,8 @@ export default function Dashboard() {
     const [deploymentCount, setDeploymentCount] = useState(0);
     const [teamMemberCount, setTeamMemberCount] = useState(0);
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -68,7 +70,11 @@ return (
           </thead>
           <tbody>
             {products.slice(0, 5).map((product) => (
-              <tr key={product.id} className="border-b border-gray-100">
+              <tr
+              key={product.id}
+              onClick={() => navigate(`/products/${product.id}`)}
+              className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
+              >
                 <td className="py-2">{product.name}</td>
                 <td className="py-2">{product.currentVersion}</td>
                 <td className="py-2">{product.criticality}</td>
