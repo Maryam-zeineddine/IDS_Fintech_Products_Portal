@@ -13,6 +13,10 @@ import { getAllProductResponsibilities, createProductResponsibility, deleteProdu
 import type { ProductResponsibility } from '../types/ProductResponsibility';
 import { getAllTeamMembers } from '../services/teamMemberService';
 import type { TeamMember } from '../types/TeamMember';
+import { getAllDeployments } from '../services/deploymentService';
+import type { Deployment } from '../types/Deployment';
+import { getAllClients } from '../services/clientService';
+import type { Client } from '../types/Client';
 
 const TABS = ['Modules', 'Clients', 'Team', 'Repositories', 'Documentation'] as const;
 type Tab = (typeof TABS)[number];
@@ -29,6 +33,8 @@ export default function ProductDetails(){
     const [repositories, setRepositories] = useState<Repository[]>([]);
     const [newRepoName, setNewRepoName] = useState('');
     const [newRepoUrl, setNewRepoUrl] = useState('');
+    const [productDeployments, setProductDeployments] = useState<Deployment[]>([]);
+    const [clients, setClients] = useState<Client[]>([]);
 
     const [documents, setDocuments] = useState<Document[]>([]);
     const [newDocName, setNewDocName] = useState('');
@@ -157,6 +163,13 @@ export default function ProductDetails(){
         await deleteProductResponsibility(respId);
         loadResponsibilities();
     };
+
+    useEffect(() => {
+        getAllDeployments()
+            .then((all) => setProductDeployments(all.filter((d) => d.productId === Number(id))))
+            .catch(console.error);
+        getAllClients().then(setClients).catch(console.error);
+    }, [id]);
 
     const handleDelete = async () => {
         if (!confirm('Are you sure you want to delete this product?')) return;
@@ -304,7 +317,33 @@ export default function ProductDetails(){
                             </form>
                         </div>
                     )}
-                    {activeTab === 'Clients' && <p className="text-gray-500">Clients tab — coming next.</p>}
+                    {activeTab === 'Clients' && (
+                        <div>
+                            {productDeployments.length === 0 ? (
+                                <p className="text-gray-500 text-sm">No clients are currently using this product.</p>
+                            ) : (
+                                <ul>
+                                    {productDeployments.map((deployment) => {
+                                        const client = clients.find((c) => c.id === deployment.clientId);
+                                        return (
+                                            <li key={deployment.id} className="flex justify-between items-center border-b border-gray-100 py-2 text-sm">
+                                                <div>
+                                                    <p className="font-medium text-gray-800">{client?.companyName ?? 'Unknown client'}</p>
+                                                    <p className="text-gray-500">Version {deployment.productVersion}</p>
+                                                </div>
+                                                <button
+                                                onClick={() => navigate(`/clients/${deployment.clientId}`)}
+                                                className="text-blue-600 text-xs hover:underline"
+                                                >
+                                                    View Client
+                                                </button>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            )}
+                        </div>
+                    )}
                     {activeTab === 'Team' && (
                         <div>
                             <ul className="mb-4">
