@@ -5,6 +5,14 @@ import { getProductById, deleteProduct} from '../services/productService';
 import type { Product } from '../types/Product';
 import { getAllModules, createModule, deleteModule } from '../services/moduleService';
 import type { Module } from '../types/Module';
+import { getAllRepositories, createRepository, deleteRepository } from '../services/repositoryService';
+import type { Repository } from '../types/Repository';
+import { getAllDocuments, createDocument, deleteDocument } from '../services/documentService';
+import type { Document } from '../types/Document';
+import { getAllProductResponsibilities, createProductResponsibility, deleteProductResponsibility } from '../services/productResponsibilityService';
+import type { ProductResponsibility } from '../types/ProductResponsibility';
+import { getAllTeamMembers } from '../services/teamMemberService';
+import type { TeamMember } from '../types/TeamMember';
 
 const TABS = ['Modules', 'Clients', 'Team', 'Repositories', 'Documentation'] as const;
 type Tab = (typeof TABS)[number];
@@ -18,6 +26,18 @@ export default function ProductDetails(){
     const [modules, setModules] = useState<Module[]>([]);
     const [newModuleName, setNewModuleName] = useState('');
     const [newModuleDescription, setNewModuleDescription] = useState('');
+    const [repositories, setRepositories] = useState<Repository[]>([]);
+    const [newRepoName, setNewRepoName] = useState('');
+    const [newRepoUrl, setNewRepoUrl] = useState('');
+
+    const [documents, setDocuments] = useState<Document[]>([]);
+    const [newDocName, setNewDocName] = useState('');
+    const [newDocUrl, setNewDocUrl] = useState('');
+
+    const [responsibilities, setResponsibilities] = useState<ProductResponsibility[]>([]);
+    const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+    const [selectedTeamMemberId, setSelectedTeamMemberId] = useState<number | ''>('');
+    const [newResponsibility, setNewResponsibility] = useState('');
 
     useEffect(() => {
         getProductById(Number(id))
@@ -34,6 +54,31 @@ export default function ProductDetails(){
 
     useEffect(() => {
         loadModules();
+    }, [id]);
+
+    const loadRepositories = () => {
+        getAllRepositories()
+            .then((all) => setRepositories(all.filter((r) => r.productId === Number(id))))
+            .catch(console.error);
+    };
+
+    const loadDocuments = () => {
+        getAllDocuments()
+            .then((all) => setDocuments(all.filter((d) => d.productId === Number(id))))
+            .catch(console.error);
+    };
+
+    const loadResponsibilities = () => {
+        getAllProductResponsibilities()
+            .then((all) => setResponsibilities(all.filter((r) => r.productId === Number(id))))
+            .catch(console.error);
+    };
+
+    useEffect(() => {
+        loadRepositories();
+        loadDocuments();
+        loadResponsibilities();
+        getAllTeamMembers().then(setTeamMembers).catch(console.error);
     }, [id]);
 
     const handleAddModule = async (e: React.FormEvent) => {
@@ -62,6 +107,55 @@ export default function ProductDetails(){
         } catch (err: any) {
             alert(err.response?.data?.message || 'Failed to remove module.');
         }
+    };
+
+    const handleAddRepository = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!newRepoName.trim() || !newRepoUrl.trim()) return;
+        await createRepository({productId: Number(id),repoName: newRepoName, githubUrl: newRepoUrl});
+        setNewRepoName('');
+        setNewRepoUrl('');
+        loadRepositories();
+    }
+
+    const handleDeleteRepository  = async (repoId: number) => {
+        if(!confirm('Remove this repository?')) return;
+        await deleteRepository(repoId);
+        loadRepositories();
+    };
+
+    const handleAddDocument = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!newDocName.trim()) return;
+        await createDocument({productId: Number(id), documentName: newDocName, fileReference: newDocUrl});
+        setNewDocName('');
+        setNewDocUrl('');
+        loadDocuments();
+    };
+
+    const handleDeleteDocument = async (docId: number) => {
+        if(!confirm('Remove this document?')) return;
+        await deleteDocument(docId);
+        loadDocuments();
+    };
+
+    const handleAddResponsibility = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!selectedTeamMemberId || !newResponsibility.trim()) return;
+        await createProductResponsibility({
+            productId: Number(id),
+            teamMemberId: Number(selectedTeamMemberId),
+            responsibility: newResponsibility,
+        });
+        setSelectedTeamMemberId('');
+        setNewResponsibility('');
+        loadResponsibilities();
+    };
+
+    const handleDeleteResponsibility = async (respId: number) => {
+        if(!confirm('Remove this team assignment?')) return;
+        await deleteProductResponsibility(respId);
+        loadResponsibilities();
     };
 
     const handleDelete = async () => {
@@ -211,9 +305,120 @@ export default function ProductDetails(){
                         </div>
                     )}
                     {activeTab === 'Clients' && <p className="text-gray-500">Clients tab — coming next.</p>}
-                    {activeTab === 'Team' && <p className="text-gray-500">Team tab — coming next.</p>}
-                    {activeTab === 'Repositories' && <p className="text-gray-500">Repositories tab — coming next.</p>}
-                    {activeTab === 'Documentation' && <p className="text-gray-500">Documentation tab — coming next.</p>}
+                    {activeTab === 'Team' && (
+                        <div>
+                            <ul className="mb-4">
+                                {responsibilities.length === 0 && <p className="text-gray-500 text-sm">No team assignments yet.</p>}
+                                {responsibilities.map((r) => {
+                                    const member = teamMembers.find((tm) => tm.id === r.teamMemberId);
+                                    return (
+                                        <li key={r.id} className="flex justify-between items-center border-b border-gray-100 py-2 text-sm">
+                                            <div>
+                                                <p className="font-medium text-gray-800">{member?.fullName ?? 'Unknown'}</p>
+                                                <p className="text-gray-500">{r.responsibility}</p>
+                                            </div>
+                                            <button onClick={() => handleDeleteResponsibility(r.id)} className="text-red-600 text-xs hover:underline">
+                                                Remove
+                                            </button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <form onSubmit={handleAddResponsibility} className="flex gap-2">
+                                <select
+                                value={selectedTeamMemberId}
+                                onChange={(e) => setSelectedTeamMemberId(e.target.value ? Number(e.target.value) : '')}
+                                className="border border-gray-300 rounded px-3 py-2 text-sm flex-1"
+                                >
+                                    <option value="">Select team member</option>
+                                    {teamMembers.map((tm) => (
+                                        <option key={tm.id} value={tm.id}>{tm.fullName}</option>
+                                    ))}
+                                </select>
+                                <input
+                                value={newResponsibility}
+                                onChange={(e) => setNewResponsibility(e.target.value)}
+                                placeholder="Responsibility"
+                                className="border border-gray-300 rounded px-3 py-2 text-sm flex-1"
+                                />
+                                <button type="submit" className="bg-black text-white rounded px-4 py-2 text-sm">Add</button>
+                            </form>
+                        </div>
+                    )}
+
+                    {activeTab === 'Repositories' && (
+                        <div>
+                            <ul className="mb-4">
+                                {repositories.length === 0 && <p className="text-gray-500 text-sm">No repositories yet.</p>}
+                                {repositories.map((repo) => (
+                                    <li key={repo.id} className="flex justify-between items-center border-b border-gray-100 py-2 text-sm">
+                                        <div>
+                                            <p className="font-medium text-gray-800">{repo.repoName}</p>
+                                            <a href={repo.githubUrl} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">
+                                                {repo.githubUrl}
+                                            </a>
+                                        </div>
+                                        <button onClick={() => handleDeleteRepository(repo.id)} className="text-red-600 text-xs hover:underline">
+                                            Remove
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <form onSubmit={handleAddRepository} className="flex gap-2">
+                                <input
+                                value={newRepoName}
+                                onChange={(e) => setNewRepoName(e.target.value)}
+                                placeholder="Repository name"
+                                className="border border-gray-300 rounded px-3 py-2 text-sm flex-1"
+                                />
+                                <input
+                                value={newRepoUrl}
+                                onChange={(e) => setNewRepoUrl(e.target.value)}
+                                placeholder="GitHub URL"
+                                className="border border-gray-300 rounded px-3 py-2 text-sm flex-1"
+                                />
+                                <button type="submit" className="bg-black text-white rounded px-4 py-2 text-sm">Add</button>
+                            </form>
+                        </div>
+                    )}
+
+                    {activeTab === 'Documentation' && (
+                        <div>
+                            <ul className="mb-4">
+                                {documents.length === 0 && <p className="text-gray-500 text-sm">No documents yet.</p>}
+                                {documents.map((doc) => (
+                                    <li key={doc.id} className="flex justify-between items-center border-b border-gray-100 py-2 text-sm">
+                                        <div>
+                                            <p className="font-medium text-gray-800">{doc.documentName}</p>
+                                            {doc.fileReference && (
+                                                <a href={doc.fileReference} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">
+                                                    {doc.fileReference}
+                                                </a>
+                                            )}
+                                        </div>
+                                        <button onClick={() => handleDeleteDocument(doc.id)} className="text-red-600 text-xs hover:underline">
+                                            Remove
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <form onSubmit={handleAddDocument} className="flex gap-2">
+                                <input
+                                value={newDocName}
+                                onChange={(e) => setNewDocName(e.target.value)}
+                                placeholder="Document name"
+                                className="border border-gray-300 rounded px-3 py-2 text-sm flex-1"
+                                />
+                                <input
+                                value={newDocUrl}
+                                onChange={(e) => setNewDocUrl(e.target.value)}
+                                placeholder="URL / file reference"
+                                className="border border-gray-300 rounded px-3 py-2 text-sm flex-1"
+                                />
+                                <button type="submit" className="bg-black text-white rounded px-4 py-2 text-sm">Add</button>
+                            </form>
+                        </div>
+                    )}
                 </div>
             </div>
         </Layout>
