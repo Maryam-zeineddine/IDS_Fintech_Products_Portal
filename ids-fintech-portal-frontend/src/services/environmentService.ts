@@ -1,13 +1,13 @@
 import api from "./api";
 import type { DeploymentEnvironment, CreateEnvironmentDto } from "../types/Environment";
 
-export const getAllEnvironments = async (): Promise<DeploymentEvironment[]> => {
-    const response = await api.get<DeploymentEvironment[]>('/environments');
+export const getAllEnvironments = async (): Promise<DeploymentEnvironment[]> => {
+    const response = await api.get<DeploymentEnvironment[]>('/environments');
     return response.data;
 };
 
-export  const createEnvironment = async (dto: CreateEnvironmentDto): Promise<DeploymentEvironment> => {
-    const response = await api.post<DeploymentEvironment>('/environments', dto);
+export  const createEnvironment = async (dto: CreateEnvironmentDto): Promise<DeploymentEnvironment> => {
+    const response = await api.post<DeploymentEnvironment>('/environments', dto);
     return response.data;
 };
 
