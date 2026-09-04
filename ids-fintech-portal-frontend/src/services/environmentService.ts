@@ -1,5 +1,5 @@
 import api from "./api";
-import type { DeploymentEvironment, CreateEnvironmentDto } from "../types/Environment";
+import type { DeploymentEnvironment, CreateEnvironmentDto } from "../types/Environment";
 
 export const getAllEnvironments = async (): Promise<DeploymentEvironment[]> => {
     const response = await api.get<DeploymentEvironment[]>('/environments');
