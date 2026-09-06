@@ -56,6 +56,10 @@ employees can:
 ### Create User 
 ![ Create User - Admin only](Docs/screenshots/Create_User_Page.png)
 
+## Design & Planning Materials
+
+Wireframes, the user flow diagram, and additional screenshots from the design phase are available in the `/Docs` folder.
+
 ## Technology Stack
 
 **Backend**
