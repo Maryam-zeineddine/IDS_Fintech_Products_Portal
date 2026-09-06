@@ -17,43 +17,43 @@ employees can:
 
 ## Screenshots
 
-###Login
+### Login
 ![Login](Docs/screenshots/Login_Page.png)
 
-###Dashboard - Admin
+### Dashboard - Admin
 ![Dashboard - Admin](Docs/screenshots/Admin_Dashboard_Page.png)
 
-###Dashboard - Employee
+### Dashboard - Employee
 ![Dashboard - Employee](Docs/screenshots/Employee_Dashboard_Page.png)
 
-###Products List
+### Products List
 ![Products List](Docs/screenshots/Products_Page.png)
 
-###Create Product
+### Create Product
 ![Create Product](Docs/screenshots/Create_Product_Page.png)
 
-###Clients List
+### Clients List
 ![Clients List](Docs/screenshots/Clients_Page.png)
 
-###Create Client
+### Create Client
 ![Create Client](Docs/screenshots/Create_Client_Page.png)
 
-###Deployments List
+### Deployments List
 ![Deployments List](Docs/screenshots/Deployments_Page.png)
 
-###Create Deployment
+### Create Deployment
 ![Create Deployment](Docs/screenshots/Create_Deployments_Page.png)
 
-###Team Members List
+### Team Members List
 ![Team Members List](Docs/screenshots/Team_Members_Page.png)
 
-###Create Team Member
+### Create Team Member
 ![Create Team Member](Docs/screenshots/Create_Team_Member_Page.png)
 
-###User Management List
+### User Management List
 ![ User Management List - Admin only](Docs/screenshots/User_Management.png)
 
-###Create User 
+### Create User 
 ![ Create User - Admin only](Docs/screenshots/Create_User_Page.png)
 
 ## Technology Stack
