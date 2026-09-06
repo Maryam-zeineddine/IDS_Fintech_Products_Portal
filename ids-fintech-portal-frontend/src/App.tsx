@@ -11,6 +11,10 @@ import ClientForm from './pages/ClientForm';
 import ClientDetails from './pages/ClientDetails';
 import DeploymentsList from './pages/DeploymentsList';
 import DeploymentForm from './pages/DeploymentForm';
+import TeamMembersList from './pages/TeamMembersList';
+import TeamMemberForm from './pages/TeamMemberForm';
+import UsersList from './pages/UsersList';
+import UserForm from './pages/UserForm';
 
 // Wrapper that blocks access to a route unless the user is logged in
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -117,6 +121,54 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <DeploymentForm />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/team" 
+        element={
+          <ProtectedRoute>
+            <TeamMembersList />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/team/new" 
+        element={
+          <ProtectedRoute>
+            <TeamMemberForm />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/team/:id/edit" 
+        element={
+          <ProtectedRoute>
+            <TeamMemberForm />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/users" 
+        element={
+          <ProtectedRoute>
+            <UsersList />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/users/new"  
+        element={
+          <ProtectedRoute>
+            <UserForm />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/users/:id/edit" 
+        element={
+          <ProtectedRoute>
+            <UserForm />
           </ProtectedRoute>
         } 
       />

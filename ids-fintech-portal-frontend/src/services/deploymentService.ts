@@ -19,7 +19,7 @@ export const getAllDeployments = async (): Promise<Deployment[]> => {
 };
 
 export const getDeploymentById = async (id: number): Promise<Deployment> => {
-    const response = await api.post<Deployment>('/deployments/${id');
+    const response = await api.get<Deployment>(`/deployments/${id}`);
     return response.data
 };
 

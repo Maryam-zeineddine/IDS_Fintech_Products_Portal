@@ -22,11 +22,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
-        onSubmit={handleSubmit}
-        className="bg-blue-200 border border-blue-400 rounded-lg p-8 w-96"
-      >
+      onSubmit={handleSubmit}
+      className="bg-white border border-gray-200 rounded-lg p-8 w-96 shadow-sm"
+    >
         <h1 className="text-2xl font-bold text-center mb-1">IDS Fintech Portal</h1>
         <p className="text-center text-gray-700 mb-6">Login</p>
 

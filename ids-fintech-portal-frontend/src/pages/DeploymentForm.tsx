@@ -108,9 +108,13 @@ export default function DeploymentForm() {
 };
 
     const handleDelete = async () => {
-        if (!confirm('Are you sure you want to delete this deployment?')) return;
+      if (!confirm('Are you sure you want to delete this deployment?')) return;
+      try {
         await deleteDeployment(Number(id));
         navigate('/deployments');
+      } catch (err: any) {
+        alert(err.response?.data?.message || 'Failed to delete deployment.');
+      }
     };
 
   const productModules = allModules.filter((m) => m.productId === Number(form.productId));
