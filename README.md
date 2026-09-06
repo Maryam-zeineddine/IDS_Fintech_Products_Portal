@@ -17,19 +17,19 @@ employees can:
 
 ## Screenshots
 
-   ![Login](screenshots/Login_Page.png)
-   ![Dashboard - Admin](screenshots/Admin_Dashboard_Page.png)
-   ![Dashboard - Employee](screenshots/Employee_Dashboard_Page.png)
-   ![Products List](screenshots/Products_Page.png)
-   ![Create Product](screenshots/Create_Product_Page.png)
-   ![Clients List](screenshots/Clients_Page.png)
-   ![Create Client](screenshots/Create_Client_Page.png)
-   ![Deployments List](screenshots/Deployments_Page.png)
-   ![Create Deployment](screenshots/Create_Deployments_Page.png)
-   ![Team Members List](screenshots/Team_Members_Page.png)
-   ![Create Team Member](screenshots/Create_Team_Member_Page.png)
-   ![ User Management List - Admin only](screenshots/User_Management.png)
-   ![ Create User Management - Admin only](screenshots/Create_User_Page.png)
+   ![Login](Docs/screenshots/Login_Page.png)
+   ![Dashboard - Admin](Docs/screenshots/Admin_Dashboard_Page.png)
+   ![Dashboard - Employee](Docs/screenshots/Employee_Dashboard_Page.png)
+   ![Products List](Docs/screenshots/Products_Page.png)
+   ![Create Product](Docs/screenshots/Create_Product_Page.png)
+   ![Clients List](Docs/screenshots/Clients_Page.png)
+   ![Create Client](Docs/screenshots/Create_Client_Page.png)
+   ![Deployments List](Docs/screenshots/Deployments_Page.png)
+   ![Create Deployment](Docs/screenshots/Create_Deployments_Page.png)
+   ![Team Members List](Docs/screenshots/Team_Members_Page.png)
+   ![Create Team Member](Docs/screenshots/Create_Team_Member_Page.png)
+   ![ User Management List - Admin only](Docs/screenshots/User_Management.png)
+   ![ Create User Management - Admin only](Docs/screenshots/Create_User_Page.png)
 
 ## Technology Stack
 
@@ -194,7 +194,7 @@ All endpoints (except `/api/auth/login`) require a valid JWT Bearer token in the
 - No Manager role tier — only Admin and Employee, per the requirement document.
 
 ## Repository Structure
-
+```
 IDS_Fintech_Products_Portal/
 ├── database/
 │ ├── ERD.png
@@ -202,7 +202,7 @@ IDS_Fintech_Products_Portal/
 │ ├── seedlookupdata.sql
 ├── IDSFintechPortal.Api/ (backend)
 └── ids-fintech-portal-frontend/ (frontend)
-
+```
 
 ## Internship Objective
 
